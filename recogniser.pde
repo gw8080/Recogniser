@@ -8,8 +8,8 @@ void setup()
   String test2 = join(loadStrings(testfile), "\n");
   String input = word(meaning(divide(meaning(split(res[round(random(res.length-1))], "|")[1], res), test2), res), res) + " ";
   String total = "";
-  for (int x = 0; x < 50; x++) {
-    output = word(meaning(divide(word(input, res), test2), res), res) + " " + divide(meaning(word(input, res), res), test2) + " ";
+  for (int x = 0; x < 10; x++) {
+    output = divide(meaning(word(word(meaning(divide(word(input, res), test2), res), res), res), res), test2) + " ";
     input = output;
     total += output;
   }
