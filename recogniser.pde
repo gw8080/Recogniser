@@ -2,7 +2,7 @@ PrintWriter outputx, debug;
 String testfile = "test.txt";
 String search = "existence";
 int sentences = 10;
-int sentenceLength = 10;
+int sentenceLength = 20;
 void setup()
 {
   outputx = createWriter("output.txt");
@@ -11,7 +11,7 @@ void setup()
   String test2 = join(loadStrings(testfile), "\n");
   String total = "";
   for (int y = 0; y != sentences; y++) {
-    String input = search;
+    String input = word(meaning(divide(meaning(split(res[round(random(res.length-1))], "|")[1], res), test2), res), res) + " ";
     for (int x = 0; x != sentenceLength; x++) {
       output = divide(meaning(word(word(meaning(divide(word(input, res), test2), res), res), res), res), test2) + " ";
       input = output;
