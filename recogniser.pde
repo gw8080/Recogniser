@@ -1,52 +1,64 @@
 PrintWriter outputx, debug;
-String resource = "reason.txt";
+String testfile = "test.txt";
 void setup()
 {
   outputx = createWriter("output.txt");
   String output = "";
-  int tries = 50000;
-  String[] input = split(join(loadStrings(resource), ""), ".");
   String[] res = split(join(loadStrings("dictionary.txt"), "\n").replace(",", ""), "\n");
-  for (int x = 0; x < input.length; x++) {
-    output = input[x] + "\n";
-    for (int y = 0; y < tries; y++) {
-      int z = round(random(res.length-1));
-      if (res[z].indexOf("|") > -1) {
-        if (StringMatch(input[x], split(res[z], "|")[1], " ", 100) > 90 ) {
-          output += split(res[z], "|")[0] + ", ";
-        }
-      }
-    }
-    output += "\n\n";
-    outputx.print(output);
-    outputx.flush();
+  String test2 = join(loadStrings(testfile), "\n");
+  String input = word(meaning(divide(meaning(split(res[round(random(res.length-1))], "|")[1], res), test2), res), res) + " ";
+  String total = "";
+  for (int x = 0; x < 50; x++) {
+    output = word(meaning(divide(word(input, res), test2), res), res) + " " + divide(meaning(word(input, res), res), test2) + " ";
+    input = output;
+    total += output;
   }
+  outputx = createWriter("output.txt");
+  outputx.println(total);
+  outputx.flush();
   outputx.close();
   exit();
 }
-int StringMatch(String one, String two, String splitToken, int tries) {
 
-  String[] Background = split(one, splitToken);
-  String[] match = split(two, splitToken);
-  int state = 0;
-  for (int a = 0; a < tries; a++) {
-    if (func(Background, match, splitToken, 3, 0) == true) {
-      state++;
+String divide(String proc, String dic) {
+  String word = "";
+
+  String[] state = split(proc, " ");
+  for (int x = 0; x < 1000; x++) {
+    int rand = round(random(state.length-1));
+    if (dic.indexOf("\n" + state[rand] + "\n") > -1) {
+      word = state[rand];
+      break;
     }
   }
-  return state;
+  return word;
 }
-
-boolean func(String[] Background, String[] match, String splitToken, int size, int pos) {
-  boolean state = false;
-  String check ="";
-  if (pos+size <= Background.length-1 && match.length-1 >= size+pos) {
-    for (int a = pos; a < size; a++) {
-      check += match[a] + splitToken;
+String word(String meaning, String[] res) {
+  String ret = "";
+  meaning = meaning.replace(",", "");
+  for (int x = 0; x < 1000; x++) {
+    int y = round(random(res.length-1));
+    String[] array = split(res[y], "|");
+    if (array.length-1 == 1) {
+      if (meaning.indexOf(" " + array[0] + " ") > -1) {
+        ret = split(res[y], "|")[0];
+        break;
+      }
     }
   }
-  if (join(Background, splitToken).indexOf(check, pos) > -1 && check.length() > 0) {
-    state = true;
+  return ret;
+}
+String meaning(String word, String[] res) {
+  String ret = "";
+  for (int x = 0; x < 1000; x++) {
+    int y = round(random(res.length-1));
+    String[] array = split(res[y], "|");
+    if (array.length-1 == 1) {
+      if (array[1].replace(",", "").indexOf(" " + word + " ") >-1) {
+        ret = split(res[y], "|")[1];
+        break;
+      }
+    }
   }
-  return state;
+  return ret;
 }
